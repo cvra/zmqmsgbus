@@ -16,17 +16,19 @@ def rename_message(msg_buf, topic, new_topic):
     return renamed_buf
 
 
-def forward(sub_addr, pub_addr, topic='', rename_topic=None, bind=False):
+def forward(sub_addr, pub_addr, topic='', rename_topic=None, bind_sub=False, bind_pub=False):
     context = zmq.Context()
 
     in_sock = context.socket(zmq.SUB)
     out_sock = context.socket(zmq.PUB)
 
-    if bind is True:
+    if bind_sub is True:
         map_string_or_list_of_strings(in_sock.bind, sub_addr)
-        map_string_or_list_of_strings(out_sock.bind, pub_addr)
     else:
         map_string_or_list_of_strings(in_sock.connect, sub_addr)
+    if bind_pub is True:
+        map_string_or_list_of_strings(out_sock.bind, pub_addr)
+    else:
         map_string_or_list_of_strings(out_sock.connect, pub_addr)
 
     in_sock.setsockopt(zmq.SUBSCRIBE, msg.createZmqFilter(topic))

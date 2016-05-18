@@ -13,4 +13,4 @@ if __name__ == '__main__':
     print('runnning ZeroMQ Message Bus')
     print('input  {}'.format(', '.join(args.in_addr)))
     print('output {}'.format(', '.join(args.out_addr)))
-    zmqmsgbus.forward(args.in_addr, args.out_addr, bind=True)
+    zmqmsgbus.forward(args.in_addr, args.out_addr, bind_sub=True, bind_pub=True)
